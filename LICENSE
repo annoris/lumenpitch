@@ -1,0 +1,62 @@
+Commercial & Sponsorware Source-Gated License (On-Chain Solana Treasury Edition)
+
+Copyright (c) 2026 LumenPitch Studio. All rights reserved.
+
+================================================================================
+PART I — PUBLIC ARCHITECTURAL SHOWCASE & VISUAL DOCUMENTATION RIGHTS
+================================================================================
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+the public architectural showcase documentation, visual walkthrough screenshots
+(`docs/images/`), and template previews (`templates/*/static/thumbnail.png`)
+hosted in the public repository (`https://github.com/annoris/lumenpitch`) to
+view, study, share, and reference the architectural blueprints for educational
+and evaluation purposes, subject to the following conditions:
+
+1. The above copyright notice and this permission notice shall be included in
+   all copies or substantial portions of the public documentation.
+2. Explore the live interactive PWA studio showcase at:
+   https://annoris.github.io/lumenpitch/
+
+================================================================================
+PART II — SOLANA-GATED SPONSORWARE SOURCE VAULT (`annoris/lumenpitch-pro-source`)
+================================================================================
+
+1. Source Code Protection & Private Engineering Vault:
+   The complete, unminified, editable full-stack source code (`servers/nextjs/`,
+   `servers/fastapi/`, `electron/`, `templates/`, `scripts/`, `Dockerfile`, and
+   `docker-compose.yml`) is protected under a Commercial & Sponsorware
+   Source-Gated License and hosted in the private repository:
+   https://github.com/annoris/lumenpitch-pro-source
+
+2. On-Chain Solana Unlock & Commercial Licensing Tiers:
+   Developers, creative studios, and commercial enterprises may unlock direct
+   GitHub collaborator access to `annoris/lumenpitch-pro-source` and acquire
+   commercial white-label deployment rights by contributing via the Solana
+   Mainnet-Beta network (SOL or USDC-SPL) to the official treasury wallet:
+
+   Official Solana Treasury & Sponsorship Wallet:
+   3HvUMCUSSHEdtA35UuD4J7mbgpTxJ7LgT2X7GfdzvBdm
+
+   - Individual Developer Unlock ($75 USD equiv. in SOL / USDC):
+     1 GitHub seat invitation to `annoris/lumenpitch-pro-source` with full clone
+     access for personal, educational, and self-hosted evaluation projects.
+   - Perpetual Studio / Agency License ($149 – $450 USD equiv. in SOL / USDC):
+     Up to 3 GitHub team seats in `annoris/lumenpitch-pro-source` + commercial
+     white-label deployment rights for up to 5 client domains.
+   - Enterprise White-Label Platform ($1,500 USD equiv. in SOL / USDC):
+     Unlimited team seats + unlimited commercial white-label deployments,
+     proprietary redistribution rights, and 90-day priority engineering SLA.
+
+3. Instant Verification & Repository Access Activation:
+   After sending your contribution to `3HvUMCUSSHEdtA35UuD4J7mbgpTxJ7LgT2X7GfdzvBdm`,
+   submit your Solscan Transaction Signature (TxHash) and GitHub username via
+   the "🔓 Solana Source Code Unlock Request" issue template at:
+   https://github.com/annoris/lumenpitch/issues/new?template=source_unlock_request.md
+
+   See `SOURCE_ACCESS.md`, `PAYMENT.md`, `SPONSORS.md`, and `NOTICE` for
+   complete tier specifications and third-party attribution notices.
+
+THE SOFTWARE AND DOCUMENTATION ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
+KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
