@@ -1,0 +1,32 @@
+{
+  "name": "LumenPitch Studio — AI Presentation Workspace",
+  "short_name": "LumenPitch",
+  "description": "AI-Powered Presentation Studio & Multi-LLM Slide Generation Engine",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#fbfcf8",
+  "theme_color": "#103d38",
+  "categories": ["productivity", "business", "design", "utilities"],
+  "icons": [
+    {
+      "src": "docs/images/lumenpitch-logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "servers/nextjs/app/apple-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "servers/nextjs/app/icon2.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

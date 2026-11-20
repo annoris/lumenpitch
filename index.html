@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+  <title>LumenPitch Studio — Interactive AI Presentation Workspace</title>
+  <meta name="description" content="LumenPitch Interactive AI Presentation Studio — Local & Cloud LLMs (Ollama, OpenAI, Claude, Gemini), React/Tailwind Template V2 Engine, Vision PPTX Import & Native PPTX/PDF Export." />
+  <meta name="theme-color" content="#103d38" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="LumenPitch" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="format-detection" content="telephone=no" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/svg+xml" href="docs/images/lumenpitch-logo.svg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="servers/nextjs/app/apple-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            syne: ['Syne', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              dark: '#103d38',
+              darker: '#0a2925',
+              mid: '#1c554b',
+              lime: '#c6f46a',
+              bg: '#fbfcf8',
+              sidebar: '#f1f4ed',
+              border: '#dfe6dd',
+              muted: '#59695d',
+              purple: '#7A5AF8'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #fbfcf8;
+      color: #191919;
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+    .font-syne {
+      font-family: 'Syne', system-ui, sans-serif;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5cb;
+      border-radius: 9999px;
+    }
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+    }
+    .animate-float {
+      animation: floatSlow 4s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col lg:flex-row selection:bg-[#c6f46a] selection:text-[#103d38]">
+
+  <!-- LEFT SIDEBAR (Exact replica of servers/nextjs DashboardSidebar.tsx) -->
+  <aside class="sticky top-0 z-30 flex lg:h-dvh w-full lg:w-64 shrink-0 flex-row lg:flex-col items-center lg:items-stretch justify-between border-b lg:border-b-0 lg:border-r border-[#dfe6dd] bg-[#f1f4ed]/95 backdrop-blur-md px-4 py-2.5 lg:px-5 lg:py-6 pt-[max(0.625rem,env(safe-area-inset-top))]">
+    <div class="flex items-center justify-between lg:block gap-3 w-full">
+      <!-- Brand Header -->
+      <a href="#workspace" onclick="switchView('workspace'); return false;" class="flex items-center gap-2.5 lg:mb-8">
+        <img src="docs/images/lumenpitch-logo.svg" alt="LumenPitch" class="w-9 h-9 lg:w-10 lg:h-10 rounded-xl shadow-sm" />
+        <div>
+          <span class="font-syne text-lg lg:text-xl font-bold tracking-tight text-[#103d38] block leading-none">LumenPitch</span>
+          <span class="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#6a7b6d]">Studio App</span>
+        </div>
+      </a>
+
+      <!-- Mobile Quick Action Buttons in Top Bar -->
+      <div class="flex lg:hidden items-center gap-2">
+        <button id="pwa-install-btn" onclick="installPwaApp()" class="hidden items-center gap-1.5 rounded-full bg-[#103d38] px-3 py-1.5 text-[11px] font-semibold text-[#c6f46a] shadow-xs">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+          <span>Install App</span>
+        </button>
+        <button onclick="openSolanaModal()" class="inline-flex items-center gap-1.5 rounded-full border border-[#103d38]/20 bg-white px-3 py-1.5 text-[11px] font-bold text-[#103d38] shadow-2xs">
+          <span class="h-2 w-2 rounded-full bg-[#14F195]"></span>
+          <span>SOL</span>
+        </button>
+      </div>
+
+      <!-- Primary CTA: Create Presentation -->
+      <button onclick="switchView('create')" class="hidden lg:flex w-full mb-7 min-h-12 items-center justify-center gap-2 rounded-xl bg-[#103d38] px-3 text-sm font-semibold text-white transition-all hover:bg-[#1c554b] shadow-sm hover:shadow">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+        <span>Create presentation</span>
+      </button>
+
+      <p class="mb-3 hidden px-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#6a7b6d] lg:block">Creative studio</p>
+
+      <!-- Desktop Navigation (hidden on phones, shown on lg+) -->
+      <nav class="hidden lg:flex lg:flex-col gap-1.5 lg:space-y-1.5">
+        <button id="nav-workspace" onclick="switchView('workspace')" class="nav-btn flex min-h-12 items-center gap-3 rounded-xl px-3 py-2 text-sm transition-all bg-white font-semibold text-[#103d38] shadow-sm w-full text-left">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+          <span>My workspace</span>
+        </button>
+
+        <button id="nav-templates" onclick="switchView('templates')" class="nav-btn flex min-h-12 items-center gap-3 rounded-xl px-3 py-2 text-sm transition-all text-[#59695d] hover:bg-white/60 w-full text-left">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect width="18" height="7" x="3" y="3" rx="1"/><rect width="9" height="7" x="3" y="14" rx="1"/><rect width="5" height="7" x="16" y="14" rx="1"/></svg>
+          <span>Templates</span>
+          <span class="ml-auto inline-flex items-center rounded-full bg-[#103d38]/10 px-2 py-0.5 text-[11px] font-semibold text-[#103d38]">16</span>
+        </button>
+
+        <button id="nav-create" onclick="switchView('create')" class="nav-btn flex min-h-12 items-center gap-3 rounded-xl px-3 py-2 text-sm transition-all text-[#59695d] hover:bg-white/60 w-full text-left">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z"/></svg>
+          <span>AI Deck Generator</span>
+        </button>
+
+        <button id="nav-settings" onclick="switchView('settings')" class="nav-btn flex min-h-12 items-center gap-3 rounded-xl px-3 py-2 text-sm transition-all text-[#59695d] hover:bg-white/60 w-full text-left">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75"/></svg>
+          <span>AI Providers</span>
+          <span class="ml-auto inline-flex items-center rounded-full bg-purple-100 px-2 py-0.5 text-[11px] font-semibold text-purple-800">16+</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- Bottom Sidebar Controls -->
+    <div class="hidden lg:block mt-auto border-t border-[#dce3d8] pt-5">
+      <button onclick="openSolanaModal()" class="w-full mb-3 flex items-center justify-between gap-2 rounded-xl bg-gradient-to-r from-[#103d38] to-[#1c554b] px-3.5 py-2.5 text-xs font-semibold text-white shadow-sm hover:opacity-95 transition">
+        <span class="flex items-center gap-2">
+          <span class="h-2 w-2 rounded-full bg-[#14F195] animate-pulse"></span>
+          <span>Solana License ($149)</span>
+        </span>
+        <span class="rounded bg-[#c6f46a] px-1.5 py-0.5 text-[10px] font-bold text-[#103d38]">SOL</span>
+      </button>
+
+      <button onclick="openSolanaModal()" class="flex items-center gap-3 px-3 py-2.5 text-sm text-[#59695d] hover:text-[#103d38] rounded-xl hover:bg-white/60 transition w-full text-left">
+        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/></svg>
+        <span>Unlock Source &amp; Clone</span>
+        <svg class="w-3.5 h-3.5 ml-auto" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg>
+      </button>
+
+      <p class="mt-4 px-3 text-xs leading-relaxed text-[#7b887c]">
+        Clear ideas.<br/>Presentations that connect.
+      </p>
+    </div>
+  </aside>
+
+  <!-- MAIN APPLICATION CONTENT -->
+  <main class="flex-1 min-w-0 pb-24 lg:pb-16">
+    <!-- Top Studio Header (Exact replica of DashboardHeader) -->
+    <header class="mx-4 flex min-h-20 flex-wrap items-center justify-between gap-4 border-b border-[#dfe6dd] py-4 sm:mx-8">
+      <div>
+        <p class="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#72816f]">LumenPitch / Studio</p>
+        <h1 id="header-title" class="mt-1 font-syne text-2xl font-semibold tracking-tight text-[#103d38]">Your space for ideas</h1>
+      </div>
+      <div class="flex flex-wrap items-center gap-2.5">
+        <button onclick="openSolanaModal()" class="inline-flex items-center gap-2 rounded-full border border-[#103d38]/20 bg-[#f1f4ed] px-3.5 py-2 text-xs font-semibold text-[#103d38] hover:bg-[#e4ebe0] transition">
+          <span class="h-2 w-2 rounded-full bg-[#14F195]"></span>
+          <span>Unlock Release / Sponsor (SOL)</span>
+        </button>
+        <button onclick="switchView('settings')" class="flex items-center gap-2 rounded-full border border-[#dfe6dd] bg-white px-4 py-2 text-sm text-[#103d38] hover:bg-gray-50 transition shadow-2xs">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75"/></svg>
+          <span class="hidden sm:inline">Configure models</span>
+        </button>
+        <button onclick="openSolanaModal()" class="flex items-center gap-2 rounded-full bg-[#103d38] px-4 py-2 text-sm font-semibold text-[#c6f46a] hover:bg-[#1c554b] transition shadow-xs">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/></svg>
+          <span>Download / Clone ($149 SOL)</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- ==========================================
+         VIEW 1: MY WORKSPACE (DASHBOARD)
+    =========================================== -->
+    <div id="view-workspace" class="view-panel">
+      <!-- Hero Banner (Exact match of DashboardPage.tsx) -->
+      <section class="mx-4 mt-7 overflow-hidden rounded-3xl bg-[#103d38] p-6 text-white sm:mx-8 sm:p-9 relative">
+        <div class="relative z-10">
+          <p class="text-xs uppercase tracking-[0.2em] text-[#c6f46a]">From idea to impact</p>
+          <div class="mt-4 flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
+            <div>
+              <h2 class="max-w-xl font-syne text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">
+                Your next story<br/>deserves to be seen.
+              </h2>
+              <p class="mt-4 max-w-lg text-sm leading-relaxed text-emerald-50/80">
+                Start with your documents, choose your Local or Cloud AI (Ollama, OpenAI, Claude, Gemini), and shape executive-grade presentations with certified Template V2 layouts.
+              </p>
+            </div>
+            <button onclick="switchView('create')" class="inline-flex w-fit shrink-0 items-center gap-3 rounded-full bg-[#c6f46a] px-6 py-3.5 text-sm font-semibold text-[#103d38] hover:bg-[#d4f888] transition shadow-lg">
+              <span>Start creating</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Start Your Way Action Cards -->
+      <section class="mx-4 mt-7 sm:mx-8">
+        <h2 class="font-syne text-base font-semibold text-[#191919]">Start your way</h2>
+        <div class="mt-4 grid w-full max-w-2xl grid-cols-1 gap-4 sm:grid-cols-2">
+          <!-- Create with AI Card -->
+          <button onclick="switchView('create')" class="group relative flex h-[92px] w-full items-center overflow-visible rounded-xl border border-[#EDEEEF] bg-white text-left hover:border-[#D7D8DE] hover:shadow-md transition">
+            <!-- Floating mini preview cards -->
+            <div class="pointer-events-none absolute right-3 -top-7 z-20 hidden sm:flex items-center">
+              <img src="servers/nextjs/public/create_presentation_card_3.png" alt="" class="w-16 h-9 object-cover rounded shadow-md -rotate-6 border border-white" />
+              <img src="servers/nextjs/public/create_presentation_card_2.png" alt="" class="w-16 h-9 object-cover rounded shadow-md -ml-6 z-10 border border-white" />
+              <img src="servers/nextjs/public/create_presentation_card_1.png" alt="" class="w-16 h-9 object-cover rounded shadow-md -ml-6 rotate-6 border border-white" />
+            </div>
+            <div class="h-full w-24 shrink-0 overflow-hidden rounded-l-xl bg-[#F8F8FB]">
+              <img src="servers/nextjs/public/create_presentation_bg.png" alt="" class="h-full w-full object-cover" />
+            </div>
+            <div class="px-4">
+              <span class="font-syne text-sm font-semibold text-[#191919] group-hover:text-[#103d38] block">Create with AI</span>
+              <span class="text-xs text-[#6a7b6d]">Outline + Smart SSE Modes</span>
+            </div>
+          </button>
+
+          <!-- Start from Scratch / Templates Card -->
+          <button onclick="switchView('templates')" class="group relative flex h-[92px] w-full items-center overflow-hidden rounded-xl border border-[#EDEEEF] bg-white text-left hover:border-[#D7D8DE] hover:shadow-md transition">
+            <div class="flex h-full w-24 shrink-0 items-center justify-center bg-[#D1E9FF]">
+              <img src="servers/nextjs/public/create_presentation_card_1.png" alt="" class="w-16 h-10 object-cover rounded shadow-sm -rotate-3" />
+            </div>
+            <div class="px-4">
+              <span class="font-syne text-sm font-semibold text-[#191919] group-hover:text-[#103d38] block">Start from template</span>
+              <span class="text-xs text-[#6a7b6d]">16 systems · 400+ layouts</span>
+            </div>
+          </button>
+        </div>
+      </section>
+
+      <!-- Featured Studio Templates & Interactive Preview -->
+      <section class="mx-4 mt-10 sm:mx-8">
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+          <div>
+            <h2 class="font-syne text-lg font-semibold text-[#191919]">Interactive Studio Decks & Certified Templates</h2>
+            <p class="text-xs text-[#59695d]">Click any presentation system below to inspect its slides, layout schema, or launch a deck</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="flex items-center gap-2 rounded-lg border border-[#dfe6dd] bg-white px-3 py-1.5 text-sm">
+              <svg class="w-4 h-4 text-[#72816f]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <input id="workspace-search" oninput="filterWorkspaceCards(this.value)" placeholder="Search templates or decks..." class="w-36 sm:w-52 bg-transparent outline-none text-xs" />
+            </div>
+            <button onclick="switchView('templates')" class="text-xs font-semibold text-[#103d38] hover:underline">View all 16 →</button>
+          </div>
+        </div>
+
+        <!-- Template Deck Grid -->
+        <div id="workspace-template-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <!-- Dynamically populated by JS from the 16 real templates -->
+        </div>
+      </section>
+
+      <!-- Live Studio Walkthrough Screens -->
+      <section class="mx-4 mt-12 sm:mx-8">
+        <div class="rounded-3xl border border-[#dfe6dd] bg-white p-6 sm:p-8 shadow-2xs">
+          <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+            <div>
+              <span class="inline-flex items-center gap-1.5 rounded-full bg-[#f1f4ed] px-3 py-1 text-xs font-semibold text-[#103d38]">
+                <span class="h-1.5 w-1.5 rounded-full bg-[#103d38]"></span>
+                Live Application Screens
+              </span>
+              <h3 class="mt-2 font-syne text-xl font-bold text-[#103d38]">Explore the Full LumenPitch Studio Interface</h3>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <button onclick="setScreenshotTab('dashboard')" id="screen-btn-dashboard" class="screen-tab-btn rounded-full bg-[#103d38] px-4 py-2 text-xs font-semibold text-white transition">1. Studio Workspace</button>
+              <button onclick="setScreenshotTab('templates')" id="screen-btn-templates" class="screen-tab-btn rounded-full bg-[#f1f4ed] px-4 py-2 text-xs font-semibold text-[#103d38] hover:bg-[#e3e9dd] transition">2. Template V2 Library</button>
+              <button onclick="setScreenshotTab('setup')" id="screen-btn-setup" class="screen-tab-btn rounded-full bg-[#f1f4ed] px-4 py-2 text-xs font-semibold text-[#103d38] hover:bg-[#e3e9dd] transition">3. 4-Step AI Setup Wizard</button>
+            </div>
+          </div>
+
+          <div class="overflow-hidden rounded-2xl border border-[#dfe6dd] bg-[#f8f9f5] shadow-inner">
+            <img id="live-screenshot-img" src="docs/images/dashboard.png" alt="LumenPitch Screen" class="w-full h-auto object-cover" />
+          </div>
+          <p id="live-screenshot-caption" class="mt-3 text-xs text-[#59695d] text-center">
+            <b>Creative Studio Workspace:</b> Upload PDFs/DOCX/PPTX via LiteParse OCR, launch Standard or Smart generation, or start from scratch.
+          </p>
+        </div>
+      </section>
+    </div>
+
+    <!-- ==========================================
+         VIEW 2: TEMPLATE LIBRARY (16 TEMPLATES)
+    =========================================== -->
+    <div id="view-templates" class="view-panel hidden mx-4 mt-7 sm:mx-8">
+      <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+        <div>
+          <h2 class="font-syne text-2xl font-bold text-[#103d38]">Template V2 Library & Custom PPTX Compiler</h2>
+          <p class="text-sm text-[#59695d] mt-1">16 bundled presentation systems (400+ certified 1280×720 layouts) + multi-pass Vision PPTX importer</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="flex items-center gap-2 rounded-xl border border-[#dfe6dd] bg-white px-3.5 py-2 text-sm">
+            <svg class="w-4 h-4 text-[#72816f]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <input oninput="filterTemplatesLibrary(this.value)" placeholder="Filter 16 studio templates..." class="w-44 sm:w-60 bg-transparent outline-none text-xs" />
+          </div>
+          <button onclick="switchView('create')" class="inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-xs font-semibold text-black shadow-sm" style="background: linear-gradient(270deg, #D5CAFC 2.4%, #E3D2EB 27.88%, #F4DCD3 69.23%, #FDE4C2 100%);">
+            <span>+ Import Custom .PPTX</span>
+          </button>
+        </div>
+      </div>
+
+      <div id="full-template-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <!-- ==========================================
+         VIEW 3: AI DECK GENERATOR (UPLOAD / MODE)
+    =========================================== -->
+    <div id="view-create" class="view-panel hidden mx-4 mt-7 sm:mx-8">
+      <div class="max-w-4xl mx-auto">
+        <div class="rounded-3xl border border-[#dfe6dd] bg-white p-6 sm:p-8 shadow-sm">
+          <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+            <div>
+              <span class="text-[11px] font-semibold uppercase tracking-widest text-[#103d38] bg-[#c6f46a]/40 px-2.5 py-1 rounded-full">Dual Generation Engine</span>
+              <h2 class="mt-2 font-syne text-2xl font-bold text-[#103d38]">Create Presentation with AI</h2>
+            </div>
+            <div class="flex items-center gap-2 text-xs text-[#59695d] bg-[#f1f4ed] px-3 py-1.5 rounded-full">
+              <span>Selected Template:</span>
+              <strong id="selected-template-badge" class="text-[#103d38]">Executive (32 Layouts)</strong>
+            </div>
+          </div>
+
+          <!-- Generation Mode Selector (Standard vs Smart) -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+            <div id="mode-standard" onclick="selectGenMode('standard')" class="cursor-pointer rounded-2xl border-2 border-[#103d38] bg-[#f1f4ed]/60 p-4 transition">
+              <div class="flex items-center justify-between mb-2">
+                <span class="font-syne font-bold text-sm text-[#103d38]">Standard Mode (Outline + Templates)</span>
+                <span class="rounded-full bg-[#103d38] px-2 py-0.5 text-[10px] font-semibold text-[#c6f46a]">Certified 1280×720</span>
+              </div>
+              <img src="servers/nextjs/public/generate/standard-preview.svg" alt="Standard Mode" class="w-full h-28 object-contain rounded-lg bg-white p-2 border border-[#dfe6dd] mb-2" />
+              <p class="text-xs text-[#59695d]">Interactive outline review & reordering, paired with schema-validated layouts from any of the 16 templates.</p>
+            </div>
+
+            <div id="mode-smart" onclick="selectGenMode('smart')" class="cursor-pointer rounded-2xl border-2 border-[#dfe6dd] bg-white p-4 hover:border-[#103d38]/50 transition">
+              <div class="flex items-center justify-between mb-2">
+                <span class="font-syne font-bold text-sm text-[#191919]">Smart Mode (Real-Time SSE Streaming)</span>
+                <span class="rounded-full bg-purple-100 px-2 py-0.5 text-[10px] font-semibold text-purple-800">Adaptive HTML</span>
+              </div>
+              <img src="servers/nextjs/public/generate/smart-preview.svg" alt="Smart Mode" class="w-full h-28 object-contain rounded-lg bg-[#f8f9fa] p-2 border border-[#dfe6dd] mb-2" />
+              <p class="text-xs text-[#59695d]">Streams adaptive layouts directly into the canvas via Server-Sent Events (SSE) for rapid data storytelling.</p>
+            </div>
+          </div>
+
+          <!-- Prompt & Configuration -->
+          <div class="space-y-4">
+            <div>
+              <label class="block text-xs font-semibold uppercase tracking-wider text-[#59695d] mb-2">Presentation Topic, Brief or Instructions</label>
+              <textarea id="deck-prompt" rows="3" class="w-full rounded-2xl border border-[#dfe6dd] bg-[#fbfcf8] p-4 text-sm outline-none focus:border-[#103d38]" placeholder="e.g., Q4 Enterprise AI Strategy & Revenue Roadmap with KPI breakdowns, competitive matrix, and architecture diagram...">Q4 Enterprise AI Automation & Product Launch Deck — Executive summary, market opportunity, technical architecture, and 2027 growth projections.</textarea>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div class="rounded-xl border border-[#dfe6dd] bg-[#fbfcf8] p-3">
+                <label class="block text-[10px] font-semibold uppercase text-[#72816f]">Slides</label>
+                <select id="deck-slides" class="mt-1 w-full bg-transparent text-sm font-semibold text-[#103d38] outline-none">
+                  <option value="8">8 Slides</option>
+                  <option value="10" selected>10 Slides</option>
+                  <option value="15">15 Slides</option>
+                  <option value="25">25 Slides</option>
+                </select>
+              </div>
+              <div class="rounded-xl border border-[#dfe6dd] bg-[#fbfcf8] p-3">
+                <label class="block text-[10px] font-semibold uppercase text-[#72816f]">LLM Provider</label>
+                <select id="deck-llm" class="mt-1 w-full bg-transparent text-sm font-semibold text-[#103d38] outline-none">
+                  <option>Ollama (Local Llama 3.3)</option>
+                  <option selected>OpenAI (GPT-4.1 / Codex)</option>
+                  <option>Anthropic (Claude 3.7 Sonnet)</option>
+                  <option>Google (Gemini 2.5 Pro)</option>
+                  <option>DeepSeek (R1 / V3)</option>
+                </select>
+              </div>
+              <div class="rounded-xl border border-[#dfe6dd] bg-[#fbfcf8] p-3">
+                <label class="block text-[10px] font-semibold uppercase text-[#72816f]">Image Engine</label>
+                <select class="mt-1 w-full bg-transparent text-sm font-semibold text-[#103d38] outline-none">
+                  <option selected>GPT-Image / ComfyUI</option>
+                  <option>Gemini Imagen</option>
+                  <option>Pexels / Pixabay</option>
+                </select>
+              </div>
+              <div class="rounded-xl border border-[#dfe6dd] bg-[#fbfcf8] p-3">
+                <label class="block text-[10px] font-semibold uppercase text-[#72816f]">Web Grounding</label>
+                <select class="mt-1 w-full bg-transparent text-sm font-semibold text-[#103d38] outline-none">
+                  <option selected>SearXNG / Tavily Live</option>
+                  <option>Exa / Brave Search</option>
+                  <option>Offline (Documents Only)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap items-center justify-between gap-4 pt-3">
+              <div class="text-xs text-[#59695d]">
+                Supports PDF, DOCX, PPTX, XLSX & TXT ingestion via <code class="bg-[#f1f4ed] px-1.5 py-0.5 rounded text-[#103d38]">@llamaindex/liteparse</code>
+              </div>
+              <button onclick="runInteractiveOutlinePreview()" class="inline-flex items-center gap-2 rounded-full bg-[#103d38] px-6 py-3 text-sm font-semibold text-[#c6f46a] hover:bg-[#1c554b] transition shadow-md">
+                <span>Generate Interactive Outline Preview</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Generated Outline Preview Container -->
+          <div id="outline-preview-box" class="hidden mt-8 border-t border-[#dfe6dd] pt-6">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-syne text-base font-bold text-[#103d38]">Generated Slide Outline & Layout Pairing</h3>
+              <span class="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-900">Ready for PPTX / PDF Export</span>
+            </div>
+            <div id="outline-slides-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         VIEW 4: AI PROVIDERS & SETUP WIZARD
+    =========================================== -->
+    <div id="view-settings" class="view-panel hidden mx-4 mt-7 sm:mx-8">
+      <div class="mb-6">
+        <h2 class="font-syne text-2xl font-bold text-[#103d38]">4-Step AI Provider Setup & Local Model Orchestration</h2>
+        <p class="text-sm text-[#59695d] mt-1">100% self-hosted freedom: bring your own API keys or run completely offline with Ollama, LM Studio, ComfyUI & SearXNG.</p>
+      </div>
+
+      <!-- 16 Provider Cards Grid -->
+      <div id="providers-grid" class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3 mb-8">
+        <!-- Populated by JS -->
+      </div>
+
+      <!-- Live Setup Wizard Preview & Quick-Start CLI -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="rounded-3xl border border-[#dfe6dd] bg-white p-5 shadow-2xs">
+          <h3 class="font-syne text-base font-bold text-[#103d38] mb-3">In-App Provider Configuration Wizard</h3>
+          <img src="docs/images/setup.png" alt="LumenPitch AI Provider Setup" class="w-full rounded-2xl border border-[#dfe6dd]" />
+        </div>
+
+        <div class="rounded-3xl border border-[#dfe6dd] bg-[#103d38] p-6 text-white flex flex-col justify-between">
+          <div>
+            <span class="rounded-full bg-[#c6f46a] px-3 py-1 text-[11px] font-bold text-[#103d38]">Contributor-Gated Source &amp; Desktop Runtime</span>
+            <h3 class="mt-3 font-syne text-xl font-bold">Protected Source Code &amp; Release Download Gate ($149 USD SOL)</h3>
+            <p class="mt-2 text-xs text-emerald-50/80 leading-relaxed">
+              Repository cloning, source downloads, and pre-built desktop binaries are exclusively unlocked for verified contributors via <b>Solana Mainnet</b>. Send <b>$149 USD in SOL (or 149 USDC-SPL)</b> to our official wallet with memo <code>gh:&lt;your-github-username&gt;</code> to receive your automated GitHub repository clone invitation:
+            </p>
+            <div class="mt-4 rounded-2xl bg-[#0a2925] p-4 font-mono text-xs text-emerald-100 border border-white/10 space-y-2">
+              <div class="flex items-center justify-between text-[11px] text-[#c6f46a]">
+                <span>🔒 PROTECTED REPOSITORY ACCESS GATE</span>
+                <span>SOLANA MAINNET</span>
+              </div>
+              <div class="text-white font-semibold break-all">Wallet: 3HvUMCUSSHEdtA35UuD4J7mbgpTxJ7LgT2X7GfdzvBdm</div>
+              <div class="text-emerald-200/80">Required Memo: gh:&lt;your-github-username&gt;</div>
+              <div class="text-emerald-200/80">1. Contribute $149 USD (SOL or USDC-SPL) on Solana Mainnet</div>
+              <div class="text-emerald-200/80">2. Submit txSig on GitHub → Automated RPC check unlocks git clone &amp; downloads</div>
+            </div>
+          </div>
+          <div class="mt-5 flex flex-wrap gap-3">
+            <button onclick="openSolanaModal()" class="inline-flex items-center gap-2 rounded-full bg-[#c6f46a] px-5 py-2.5 text-xs font-bold text-[#103d38] hover:bg-[#d5f88b] transition shadow-md">
+              <span>🔒 Unlock Clone &amp; Download Access ($149 SOL)</span>
+            </button>
+            <a href="https://github.com/annoris/lumenpitch/issues/new?template=claim-release-access.yml" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-full border border-white/25 px-5 py-2.5 text-xs font-semibold text-white hover:bg-white/10 transition">
+              <span>Submit Transaction Signature (txSig) →</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ==========================================
+       SOLANA PAY LICENSE & SPONSORSHIP MODAL
+       (Exact replica of SolanaLicenseModal.tsx)
+  =========================================== -->
+  <div id="solana-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 backdrop-blur-xs p-4">
+    <div class="relative w-full max-w-2xl rounded-3xl border border-[#dfe6dd] bg-white p-6 sm:p-8 shadow-2xl max-h-[92vh] overflow-y-auto">
+      <button onclick="closeSolanaModal()" class="absolute right-5 top-5 rounded-full bg-[#f1f4ed] p-2 text-[#103d38] hover:bg-[#e2e8dd] transition" aria-label="Close modal">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
+      </button>
+
+      <div class="flex items-center gap-2.5">
+        <span class="inline-flex items-center gap-1.5 rounded-full bg-[#103d38] px-3 py-1 text-xs font-semibold text-[#c6f46a]">
+          <span class="h-2 w-2 rounded-full bg-[#14F195]"></span>
+          Solana Mainnet Verification Gate
+        </span>
+        <span class="text-xs font-semibold text-[#59695d]">$149 USD One-Time · Perpetual Release License & Sponsorship</span>
+      </div>
+
+      <h3 class="mt-3 font-syne text-2xl font-bold text-[#103d38]">Unlock Pre-Built Releases or Sponsor via Solana</h3>
+      <p class="mt-1 text-xs text-[#59695d]">
+        Send <b>$149 USD</b> in <b>SOL</b> or <b>149 USDC-SPL</b> on Solana Mainnet (or any amount to sponsor open-source development) directly to the official wallet below:
+      </p>
+
+      <div class="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-5 items-center rounded-2xl border border-[#dfe6dd] bg-[#f8faf6] p-4">
+        <div class="flex flex-col items-center">
+          <img src="docs/images/solana-pay-qr.png" alt="Official Receive SOL QR Code" class="w-48 h-auto rounded-2xl border border-[#dfe6dd] bg-white p-1.5 shadow-sm" />
+          <span class="mt-2 text-[11px] font-medium text-[#59695d] text-center">Scan with Phantom, Solflare, Backpack, Coinbase, Binance, or Trust Wallet</span>
+        </div>
+
+        <div class="sm:col-span-2 space-y-3">
+          <div>
+            <label class="block text-[10px] font-semibold uppercase tracking-wider text-[#72816f]">Official Solana Mainnet Wallet (SOL / USDC-SPL)</label>
+            <div class="mt-1 flex items-center gap-2 rounded-xl border border-[#dfe6dd] bg-white p-2.5">
+              <code id="solana-wallet-text" class="text-xs font-mono font-semibold text-[#103d38] break-all">3HvUMCUSSHEdtA35UuD4J7mbgpTxJ7LgT2X7GfdzvBdm</code>
+              <button onclick="copyWalletAddress()" id="copy-wallet-btn" class="ml-auto shrink-0 rounded-lg bg-[#103d38] px-3 py-1.5 text-xs font-semibold text-[#c6f46a] hover:bg-[#1c554b] transition">
+                Copy
+              </button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div class="rounded-xl border border-[#dfe6dd] bg-white p-2.5">
+              <span class="text-[10px] uppercase text-[#72816f] block">Transaction Memo</span>
+              <code class="font-mono font-semibold text-[#103d38]">gh:&lt;your-github-user&gt;</code>
+            </div>
+            <div class="rounded-xl border border-[#dfe6dd] bg-white p-2.5">
+              <span class="text-[10px] uppercase text-[#72816f] block">Explorer</span>
+              <a href="https://solscan.io/account/3HvUMCUSSHEdtA35UuD4J7mbgpTxJ7LgT2X7GfdzvBdm" target="_blank" rel="noopener noreferrer" class="font-semibold text-[#103d38] underline">View on Solscan →</a>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap gap-2 pt-1">
+            <a href="solana:3HvUMCUSSHEdtA35UuD4J7mbgpTxJ7LgT2X7GfdzvBdm?label=LumenPitch&message=LumenPitch%20Perpetual%20Release%20License%20(%24149%20USD)" class="inline-flex items-center gap-1.5 rounded-xl bg-[#14F195] px-4 py-2 text-xs font-bold text-[#0a2925] hover:opacity-90 transition">
+              <span>Open in Solana Wallet App</span>
+            </a>
+            <a href="https://github.com/annoris/lumenpitch/issues/new?template=claim-release-access.yml" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 rounded-xl border border-[#103d38] bg-white px-4 py-2 text-xs font-semibold text-[#103d38] hover:bg-[#f1f4ed] transition">
+              <span>Claim Release Access on GitHub →</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- On-Chain Signature Verification Input -->
+      <div class="mt-5">
+        <label class="block text-xs font-semibold text-[#103d38] mb-1.5">Verify Solana Transaction Signature (txSig) or Solscan URL</label>
+        <div class="flex flex-col sm:flex-row gap-2">
+          <input id="tx-sig-input" type="text" placeholder="Paste Base58 transaction signature or https://solscan.io/tx/..." class="flex-1 rounded-xl border border-[#dfe6dd] bg-[#fbfcf8] px-3.5 py-2.5 text-xs font-mono outline-none focus:border-[#103d38]" />
+          <button onclick="verifySolanaSignature()" class="rounded-xl bg-[#103d38] px-5 py-2.5 text-xs font-semibold text-white hover:bg-[#1c554b] transition">
+            Verify On-Chain
+          </button>
+        </div>
+        <p id="tx-verify-status" class="mt-2 text-xs hidden"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- APPLICATION DATA & INTERACTIVE CONTROLLER -->
+  <script>
+    const STUDIO_TEMPLATES = [
+      { id: 'civic', name: 'Civic', layouts: '29 Layouts', desc: 'Policy, research & behavioral insights', img: 'templates/civic/static/thumbnail.png' },
+      { id: 'dynamic', name: 'Dynamic', layouts: '32 Layouts', desc: 'High-contrast GTM & strategic roadmaps', img: 'templates/dynamic/static/thumbnail.png' },
+      { id: 'editorial', name: 'Editorial', layouts: '24 Layouts', desc: 'Annual reports, ESG & executive publications', img: 'templates/editorial/static/thumbnail.png' },
+      { id: 'executive', name: 'Executive', layouts: '32 Layouts', desc: 'SaaS platforms, product launches & board decks', img: 'templates/executive/static/thumbnail.png' },
+      { id: 'general', name: 'General', layouts: '12 Layouts', desc: 'Clean all-purpose product & team overviews', img: 'templates/general/static/thumbnail.png' },
+      { id: 'horizon', name: 'Horizon', layouts: '28 Layouts', desc: 'Warm architectural & portfolio showcases', img: 'templates/horizon/static/thumbnail.png' },
+      { id: 'landmark', name: 'Landmark', layouts: '27 Layouts', desc: 'Bold geometric layouts for capital & enterprise', img: 'templates/landmark/static/thumbnail.png' },
+      { id: 'modern', name: 'Modern', layouts: '10 Layouts', desc: 'Crisp blue-accented startup pitch decks', img: 'templates/modern/static/thumbnail.png' },
+      { id: 'momentum', name: 'Momentum', layouts: '28 Layouts', desc: 'Revenue velocity, QBRs & sales reports', img: 'templates/momentum/static/thumbnail.png' },
+      { id: 'mosaic', name: 'Mosaic', layouts: '34 Layouts', desc: 'Creative campaigns & marketing performance', img: 'templates/mosaic/static/thumbnail.png' },
+      { id: 'nova', name: 'Nova', layouts: '28 Layouts', desc: 'Deep-tech, macro trends & future economy', img: 'templates/nova/static/thumbnail.png' },
+      { id: 'pulse', name: 'Pulse', layouts: '28 Layouts', desc: 'Healthcare, clinical operations & planning', img: 'templates/pulse/static/thumbnail.png' },
+      { id: 'signal', name: 'Signal', layouts: '28+ Layouts', desc: 'Digital growth, agency briefs & media', img: 'templates/signal/static/thumbnail.png' },
+      { id: 'standard', name: 'Standard', layouts: 'Classic Layouts', desc: 'Editorial serif typography for formal pitches', img: 'templates/standard/static/thumbnail.png' },
+      { id: 'swift', name: 'Swift', layouts: 'Minimal Layouts', desc: 'Lightweight minimalist slides for fast briefings', img: 'templates/swift/static/thumbnail.png' },
+      { id: 'verdant', name: 'Verdant', layouts: 'Data & Research', desc: 'Organic emerald aesthetics for data storytelling', img: 'templates/verdant/static/thumbnail.png' }
+    ];
+
+    const AI_PROVIDERS = [
+      { name: 'Ollama', tag: 'Local LLM', img: 'servers/nextjs/public/providers/ollama.svg' },
+      { name: 'LM Studio', tag: 'Local GGUF', img: 'servers/nextjs/public/providers/lm-studio.svg' },
+      { name: 'OpenAI', tag: 'GPT-4.1 / Codex', img: 'servers/nextjs/public/providers/openai.png' },
+      { name: 'Claude', tag: 'Anthropic 3.7', img: 'servers/nextjs/public/providers/claude-color.svg' },
+      { name: 'Gemini', tag: 'Google 2.5 Pro', img: 'servers/nextjs/public/providers/gemini-color.svg' },
+      { name: 'DeepSeek', tag: 'R1 / V3', img: 'servers/nextjs/public/providers/deepseek-color.svg' },
+      { name: 'OpenRouter', tag: 'Multi-Router', img: 'servers/nextjs/public/providers/openrouter-color.svg' },
+      { name: 'LiteLLM', tag: 'Unified Proxy', img: 'servers/nextjs/public/providers/litellm-logo.svg' },
+      { name: 'AWS Bedrock', tag: 'Enterprise Cloud', img: 'servers/nextjs/public/providers/bedrock-color.svg' },
+      { name: 'Azure AI', tag: 'Azure OpenAI', img: 'servers/nextjs/public/providers/azure-color.svg' },
+      { name: 'Vertex AI', tag: 'Google Cloud', img: 'servers/nextjs/public/providers/vertexai-color.svg' },
+      { name: 'Fireworks', tag: 'Fast Inference', img: 'servers/nextjs/public/providers/fireworks-color.svg' },
+      { name: 'Together AI', tag: 'Open Weights', img: 'servers/nextjs/public/providers/together-color.svg' },
+      { name: 'Cerebras', tag: 'Wafer-Scale', img: 'servers/nextjs/public/providers/cerebras-color.svg' },
+      { name: 'ComfyUI', tag: 'Local Image Workflow', img: 'servers/nextjs/public/providers/comfyui-color.svg' },
+      { name: 'SearXNG', tag: 'Private Web Grounding', img: 'servers/nextjs/public/providers/searxng.svg' }
+    ];
+
+    function renderTemplateCards(containerId, list) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      container.innerHTML = list.map(t => `
+        <div onclick="useTemplateForDeck('${t.name} (${t.layouts})')" class="group cursor-pointer overflow-hidden rounded-2xl border border-[#dfe6dd] bg-white transition hover:-translate-y-0.5 hover:border-[#103d38] hover:shadow-md">
+          <div class="relative aspect-[16/9] w-full overflow-hidden bg-[#f1f4ed]">
+            <img src="${t.img}" alt="${t.name} Template" class="h-full w-full object-cover transition duration-300 group-hover:scale-105" />
+            <span class="absolute right-2.5 top-2.5 rounded-full bg-[#103d38]/90 px-2.5 py-0.5 text-[10px] font-semibold text-[#c6f46a] backdrop-blur-xs">${t.layouts}</span>
+          </div>
+          <div class="p-4">
+            <div class="flex items-center justify-between">
+              <h4 class="font-syne text-base font-bold text-[#103d38]">${t.name}</h4>
+              <span class="text-xs font-semibold text-[#103d38] opacity-0 group-hover:opacity-100 transition">Use template →</span>
+            </div>
+            <p class="mt-1 text-xs text-[#59695d] line-clamp-1">${t.desc}</p>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderProviders() {
+      const grid = document.getElementById('providers-grid');
+      if (!grid) return;
+      grid.innerHTML = AI_PROVIDERS.map(p => `
+        <div class="flex flex-col items-center justify-center rounded-2xl border border-[#dfe6dd] bg-white p-3.5 text-center shadow-2xs hover:border-[#103d38] transition">
+          <img src="${p.img}" alt="${p.name}" class="w-9 h-9 object-contain mb-2" />
+          <span class="font-syne text-xs font-bold text-[#103d38]">${p.name}</span>
+          <span class="text-[10px] text-[#59695d]">${p.tag}</span>
+        </div>
+      `).join('');
+    }
+
+    function filterWorkspaceCards(q) {
+      const term = (q || '').toLowerCase().trim();
+      const filtered = STUDIO_TEMPLATES.filter(t => t.name.toLowerCase().includes(term) || t.desc.toLowerCase().includes(term));
+      renderTemplateCards('workspace-template-grid', filtered);
+    }
+
+    function filterTemplatesLibrary(q) {
+      const term = (q || '').toLowerCase().trim();
+      const filtered = STUDIO_TEMPLATES.filter(t => t.name.toLowerCase().includes(term) || t.desc.toLowerCase().includes(term));
+      renderTemplateCards('full-template-grid', filtered);
+    }
+
+    function useTemplateForDeck(label) {
+      const badge = document.getElementById('selected-template-badge');
+      if (badge) badge.textContent = label;
+      switchView('create');
+    }
+
+    function switchView(view) {
+      const titles = {
+        workspace: 'Your space for ideas',
+        templates: 'Template V2 Studio Library',
+        create: 'AI Presentation Generator',
+        settings: 'AI Providers & Model Setup'
+      };
+      document.getElementById('header-title').textContent = titles[view] || 'Your space for ideas';
+      document.querySelectorAll('.view-panel').forEach(el => el.classList.add('hidden'));
+      const activePanel = document.getElementById('view-' + view);
+      if (activePanel) activePanel.classList.remove('hidden');
+
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.className = 'nav-btn flex min-h-12 items-center gap-3 rounded-xl px-3 py-2 text-sm transition-all text-[#59695d] hover:bg-white/60 w-full text-left';
+      });
+      const activeNav = document.getElementById('nav-' + view);
+      if (activeNav) {
+        activeNav.className = 'nav-btn flex min-h-12 items-center gap-3 rounded-xl px-3 py-2 text-sm transition-all bg-white font-semibold text-[#103d38] shadow-sm w-full text-left';
+      }
+
+      document.querySelectorAll('.mob-nav-btn').forEach(btn => {
+        btn.className = 'mob-nav-btn flex flex-col items-center justify-center gap-0.5 rounded-xl px-3 py-1.5 text-[11px] font-medium text-[#59695d] transition-all';
+      });
+      const activeMobNav = document.getElementById('mob-nav-' + view);
+      if (activeMobNav) {
+        activeMobNav.className = 'mob-nav-btn flex flex-col items-center justify-center gap-0.5 rounded-xl bg-white px-3 py-1.5 text-[11px] font-semibold text-[#103d38] shadow-2xs transition-all';
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setScreenshotTab(tab) {
+      const data = {
+        dashboard: {
+          src: 'docs/images/dashboard.png',
+          caption: '<b>Creative Studio Workspace:</b> Upload PDFs/DOCX/PPTX via LiteParse OCR, launch Standard or Smart generation, or start from scratch.'
+        },
+        templates: {
+          src: 'docs/images/templates.png',
+          caption: '<b>Built-In & Custom Template V2 Library:</b> Inspect 400+ certified slide layouts across 16 themes or compile custom .pptx decks with Vision AI.'
+        },
+        setup: {
+          src: 'docs/images/setup.png',
+          caption: '<b>4-Step AI Provider Setup Wizard:</b> Connect ChatGPT OAuth, Ollama, LM Studio, OpenAI, Claude, Gemini, ComfyUI, and SearXNG.'
+        }
+      };
+      const item = data[tab];
+      if (!item) return;
+      document.getElementById('live-screenshot-img').src = item.src;
+      document.getElementById('live-screenshot-caption').innerHTML = item.caption;
+      ['dashboard', 'templates', 'setup'].forEach(k => {
+        const btn = document.getElementById('screen-btn-' + k);
+        btn.className = k === tab
+          ? 'screen-tab-btn rounded-full bg-[#103d38] px-4 py-2 text-xs font-semibold text-white transition'
+          : 'screen-tab-btn rounded-full bg-[#f1f4ed] px-4 py-2 text-xs font-semibold text-[#103d38] hover:bg-[#e3e9dd] transition';
+      });
+    }
+
+    function selectGenMode(mode) {
+      const std = document.getElementById('mode-standard');
+      const smt = document.getElementById('mode-smart');
+      if (mode === 'standard') {
+        std.className = 'cursor-pointer rounded-2xl border-2 border-[#103d38] bg-[#f1f4ed]/60 p-4 transition';
+        smt.className = 'cursor-pointer rounded-2xl border-2 border-[#dfe6dd] bg-white p-4 hover:border-[#103d38]/50 transition';
+      } else {
+        smt.className = 'cursor-pointer rounded-2xl border-2 border-[#103d38] bg-[#f1f4ed]/60 p-4 transition';
+        std.className = 'cursor-pointer rounded-2xl border-2 border-[#dfe6dd] bg-white p-4 hover:border-[#103d38]/50 transition';
+      }
+    }
+
+    function runInteractiveOutlinePreview() {
+      const prompt = document.getElementById('deck-prompt').value || 'Executive AI Strategy Deck';
+      const count = parseInt(document.getElementById('deck-slides').value || '10', 10);
+      const template = document.getElementById('selected-template-badge').textContent;
+      const box = document.getElementById('outline-preview-box');
+      const list = document.getElementById('outline-slides-list');
+
+      const sampleLayouts = [
+        { type: 'Cover / Hero Title', schema: 'hero_title_split_v2' },
+        { type: 'Executive KPI Summary', schema: 'metric_grid_4col_v2' },
+        { type: 'Market Opportunity & TAM', schema: 'bar_chart_insights_v2' },
+        { type: 'System Architecture Flow', schema: 'diagram_process_3step_v2' },
+        { type: 'Competitive Comparison Matrix', schema: 'comparison_table_v2' },
+        { type: 'Strategic Roadmap & Milestones', schema: 'timeline_horizontal_v2' },
+        { type: 'Financial Projections & ROI', schema: 'line_chart_dual_v2' },
+        { type: 'Next Steps & Action Plan', schema: 'closing_cta_summary_v2' }
+      ];
+
+      const items = [];
+      for (let i = 0; i < Math.min(count, 8); i++) {
+        const l = sampleLayouts[i % sampleLayouts.length];
+        items.push(`
+          <div class="rounded-2xl border border-[#dfe6dd] bg-[#fbfcf8] p-4 flex items-start gap-3">
+            <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#103d38] text-xs font-bold text-[#c6f46a]">0${i + 1}</span>
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center justify-between gap-2">
+                <h4 class="font-syne text-sm font-bold text-[#103d38] truncate">${l.type}</h4>
+                <code class="rounded bg-[#f1f4ed] px-2 py-0.5 text-[10px] font-mono text-[#59695d]">${l.schema}</code>
+              </div>
+              <p class="mt-1 text-xs text-[#59695d] line-clamp-2">Paired with <b>${template}</b> · Grounded on "${prompt.slice(0, 68)}..."</p>
+            </div>
+          </div>
+        `);
+      }
+      list.innerHTML = items.join('');
+      box.classList.remove('hidden');
+      box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function openSolanaModal() {
+      const m = document.getElementById('solana-modal');
+      m.classList.remove('hidden');
+      m.classList.add('flex');
+    }
+
+    function closeSolanaModal() {
+      const m = document.getElementById('solana-modal');
+      m.classList.add('hidden');
+      m.classList.remove('flex');
+    }
+
+    function copyWalletAddress() {
+      navigator.clipboard.writeText('3HvUMCUSSHEdtA35UuD4J7mbgpTxJ7LgT2X7GfdzvBdm');
+      const btn = document.getElementById('copy-wallet-btn');
+      btn.textContent = 'Copied!';
+      setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+    }
+
+    function verifySolanaSignature() {
+      const raw = (document.getElementById('tx-sig-input').value || '').trim();
+      const status = document.getElementById('tx-verify-status');
+      status.classList.remove('hidden');
+      const base58Regex = /^[1-9A-HJ-NP-Za-km-z]{64,96}$/;
+      let sig = raw;
+      if (raw.includes('/tx/')) {
+        sig = raw.split('/tx/')[1].split(/[?#]/)[0].trim();
+      }
+      if (!base58Regex.test(sig)) {
+        status.className = 'mt-2 text-xs font-medium text-red-600';
+        status.textContent = 'Please enter a valid Base58 Solana transaction signature (64–88 characters) or Solscan transaction URL.';
+        return;
+      }
+      status.className = 'mt-2 text-xs font-medium text-[#103d38]';
+      status.innerHTML = `Transaction signature format validated (<code>${sig.slice(0, 12)}...${sig.slice(-8)}</code>). <a href="https://github.com/annoris/lumenpitch/issues/new?template=claim-release-access.yml" target="_blank" class="underline font-bold">Click here to submit on GitHub for automated Solana Mainnet RPC verification →</a>`;
+    }
+
+    // Initialize studio views on load
+    renderTemplateCards('workspace-template-grid', STUDIO_TEMPLATES);
+    renderTemplateCards('full-template-grid', STUDIO_TEMPLATES);
+    renderProviders();
+
+    // Register PWA Service Worker & Install Prompt for Mobile Phones
+    let deferredInstallPrompt = null;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredInstallPrompt = e;
+      const btn = document.getElementById('pwa-install-btn');
+      if (btn) {
+        btn.classList.remove('hidden');
+        btn.classList.add('inline-flex');
+      }
+    });
+
+    // Non-intrusive client-side source/download protection gate (never blocks normal UI interaction)
+    console.log(
+      '%c🔒 LUMENPITCH Studio — Protected Commercial & Sponsorware Build\n%cTo unlock full editable source code (annoris/lumenpitch-pro-source), contribute via Solana: 3HvUMCUSSHEdtA35UuD4J7mbgpTxJ7LgT2X7GfdzvBdm',
+      'background:#103d38;color:#c6f46a;padding:8px 14px;font-family:Inter,sans-serif;font-weight:700;font-size:12px;letter-spacing:0.06em;border-left:4px solid #c6f46a;',
+      'background:#0a2925;color:#ffffff;padding:6px 14px;font-family:monospace;font-size:11px;'
+    );
+    document.addEventListener('contextmenu', (e) => {
+      if (e.target && e.target.closest('img, svg, canvas')) {
+        e.preventDefault();
+      }
+    });
+    document.addEventListener('dragstart', (e) => {
+      if (e.target && e.target.closest('img, svg')) {
+        e.preventDefault();
+      }
+    });
+    document.addEventListener('keydown', (e) => {
+      const key = (e.key || '').toLowerCase();
+      const isViewSource = (e.ctrlKey || e.metaKey) && key === 'u';
+      const isDevTools =
+        e.key === 'F12' ||
+        ((e.ctrlKey || e.metaKey) && e.altKey && (key === 'i' || key === 'j' || key === 'c')) ||
+        (e.ctrlKey && e.shiftKey && (key === 'i' || key === 'j' || key === 'c'));
+      if (isViewSource || isDevTools) {
+        e.preventDefault();
+      }
+    });
+
+    async function installPwaApp() {
+      if (!deferredInstallPrompt) return;
+      deferredInstallPrompt.prompt();
+      await deferredInstallPrompt.userChoice;
+      deferredInstallPrompt = null;
+      const btn = document.getElementById('pwa-install-btn');
+      if (btn) btn.classList.add('hidden');
+    }
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      });
+    }
+  </script>
+
+  <!-- MOBILE NATIVE-APP BOTTOM NAVIGATION BAR (Phones & Tablets < lg) -->
+  <nav aria-label="Mobile app navigation" class="fixed inset-x-0 bottom-0 z-40 flex lg:hidden items-center justify-around border-t border-[#dfe6dd] bg-[#f1f4ed]/95 backdrop-blur-md px-2 py-1.5 pb-[max(0.375rem,env(safe-area-inset-bottom))] shadow-[0_-4px_20px_rgba(16,61,56,0.08)]">
+    <button id="mob-nav-workspace" onclick="switchView('workspace')" class="mob-nav-btn flex flex-col items-center justify-center gap-0.5 rounded-xl bg-white px-3 py-1.5 text-[11px] font-semibold text-[#103d38] shadow-2xs transition-all">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+      <span>Workspace</span>
+    </button>
+    <button id="mob-nav-templates" onclick="switchView('templates')" class="mob-nav-btn flex flex-col items-center justify-center gap-0.5 rounded-xl px-3 py-1.5 text-[11px] font-medium text-[#59695d] transition-all">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect width="18" height="7" x="3" y="3" rx="1"/><rect width="9" height="7" x="3" y="14" rx="1"/><rect width="5" height="7" x="16" y="14" rx="1"/></svg>
+      <span>Templates</span>
+    </button>
+    <button id="mob-nav-create" onclick="switchView('create')" class="flex flex-col items-center justify-center gap-0.5 rounded-xl bg-[#103d38] px-3.5 py-1.5 text-[11px] font-semibold text-[#c6f46a] shadow-sm transition-all">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+      <span>Create AI</span>
+    </button>
+    <button id="mob-nav-settings" onclick="switchView('settings')" class="mob-nav-btn flex flex-col items-center justify-center gap-0.5 rounded-xl px-3 py-1.5 text-[11px] font-medium text-[#59695d] transition-all">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75"/></svg>
+      <span>Providers</span>
+    </button>
+  </nav>
+</body>
+</html>
