@@ -4,26 +4,24 @@
 
 <h1>LumenPitch</h1>
 
-<h3><b>The Open-Source AI Presentation Studio &amp; Multi-LLM Deck Engine</b></h3>
+<h3><b>The AI Presentation Studio &amp; Multi-LLM Deck Engine</b></h3>
 
 <p><i>From raw ideas, documents, and web research to executive-grade slide decks — powered by your choice of Local AI or Cloud LLMs.</i></p>
 
 <p>
   <a href="https://annoris.github.io/lumenpitch/"><img src="https://img.shields.io/badge/LIVE_STUDIO-annoris.github.io%2Flumenpitch-c6f46a?style=for-the-badge&amp;logo=githubpages&amp;logoColor=103d38&amp;labelColor=103d38" alt="Live Interactive Studio" /></a>
   <a href="https://github.com/annoris/lumenpitch/stargazers"><img src="https://img.shields.io/github/stars/annoris/lumenpitch?style=for-the-badge&amp;logo=github&amp;color=103d38&amp;labelColor=0a2925" alt="GitHub Stars" /></a>
-  <a href="SOURCE_ACCESS.md"><img src="https://img.shields.io/badge/Source_Vault-Solana_Unlock-14F195?style=for-the-badge&amp;logo=solana&amp;logoColor=black" alt="Solana Source Unlock" /></a>
-  <a href="SOURCE_ACCESS.md"><img src="https://img.shields.io/badge/Next.js_16-black?style=for-the-badge&amp;logo=next.js&amp;logoColor=white" alt="Next.js 16" /></a>
-  <a href="SOURCE_ACCESS.md"><img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&amp;logo=fastapi&amp;logoColor=white" alt="FastAPI" /></a>
-  <a href="SOURCE_ACCESS.md"><img src="https://img.shields.io/badge/Python_3.11-3776AB?style=for-the-badge&amp;logo=python&amp;logoColor=white" alt="Python 3.11" /></a>
-  <a href="SOURCE_ACCESS.md"><img src="https://img.shields.io/badge/Electron-191970?style=for-the-badge&amp;logo=Electron&amp;logoColor=white" alt="Electron" /></a>
+  <a href="#architecture--tech-stack"><img src="https://img.shields.io/badge/Next.js_16-black?style=for-the-badge&amp;logo=next.js&amp;logoColor=white" alt="Next.js 16" /></a>
+  <a href="#architecture--tech-stack"><img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&amp;logo=fastapi&amp;logoColor=white" alt="FastAPI" /></a>
+  <a href="#architecture--tech-stack"><img src="https://img.shields.io/badge/Python_3.11-3776AB?style=for-the-badge&amp;logo=python&amp;logoColor=white" alt="Python 3.11" /></a>
+  <a href="#architecture--tech-stack"><img src="https://img.shields.io/badge/Electron-191970?style=for-the-badge&amp;logo=Electron&amp;logoColor=white" alt="Electron" /></a>
   <a href="#supported-ai-providers--ecosystem"><img src="https://img.shields.io/badge/AI-Ollama_%7C_OpenAI_%7C_Claude_%7C_Gemini-6E56CF?style=for-the-badge" alt="Multi-LLM &amp; Local AI" /></a>
-  <a href="PAYMENT.md"><img src="https://img.shields.io/badge/Solana_Pay-3HvUMC...zvBdm-14F195?style=for-the-badge&amp;logo=solana&amp;logoColor=black" alt="Solana Pay" /></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-Solana_Sponsorware-103d38?style=for-the-badge&amp;logoColor=c6f46a" alt="License" /></a>
+  <a href="#support--crypto-sponsorship-solana"><img src="https://img.shields.io/badge/Solana_Sponsor-3HvUMC...zvBdm-14F195?style=for-the-badge&amp;logo=solana&amp;logoColor=black" alt="Solana Sponsorship" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-Proprietary_%7C_All_Rights_Reserved-103d38?style=for-the-badge&amp;logoColor=c6f46a" alt="Proprietary License" /></a>
 </p>
 
 <p align="center">
   <a href="https://annoris.github.io/lumenpitch/"><b>🚀 Launch Live Interactive Studio</b></a> •
-  <a href="SOURCE_ACCESS.md"><b>🔓 Unlock Full Source Vault (<code>annoris/lumenpitch-pro-source</code>)</b></a> •
   <a href="#why-lumenpitch">Why LumenPitch?</a> •
   <a href="#visual-showcase--platform-tour">Visual Tour</a> •
   <a href="#16-bundled-studio-templates-gallery">16 Templates</a> •
@@ -190,7 +188,7 @@ LumenPitch supports two distinct generation pipelines, configurable globally via
 
 ## 16 Bundled Studio Templates Gallery
 
-Every installation of LumenPitch ships with **16 curated presentation systems** stored in `templates/` ([Private Source Vault](./SOURCE_ACCESS.md)). Each template includes dozens of specialized slide layouts (cover slides, KPI dashboards, comparison matrices, timelines, data charts, and executive summaries):
+Every installation of LumenPitch ships with **16 curated presentation systems** stored in `templates/`. Each template includes dozens of specialized slide layouts (cover slides, KPI dashboards, comparison matrices, timelines, data charts, and executive summaries):
 
 <table>
   <tr>
@@ -430,19 +428,17 @@ flowchart TB
 
 ### Component Breakdown
 
-| Directory ([Private Source Vault](./SOURCE_ACCESS.md)) | Responsibility | Key Technologies |
+| Directory | Responsibility | Key Technologies |
 | :--- | :--- | :--- |
-| `servers/nextjs/` ([Unlock Source](./SOURCE_ACCESS.md)) | Web application, interactive slide canvas editor, Template V2 visual studio, provider onboarding wizard, and export triggers | Next.js `16.4.6`, React, TypeScript, Tailwind CSS, Redux Toolkit |
-| `servers/fastapi/` ([Unlock Source](./SOURCE_ACCESS.md)) | REST & SSE streaming API, multi-LLM orchestration, Template V2 vision certification, Mem0 memory, MCP server, and persistence | Python `3.11`, FastAPI, SQLModel, Alembic, LiteLLM, Pydantic |
-| `electron/` ([Unlock Source](./SOURCE_ACCESS.md)) | Cross-platform desktop packaging, lifecycle management, local process supervision, and IPC security boundaries | Electron, TypeScript, Electron Builder |
-| `templates/` ([Unlock Source](./SOURCE_ACCESS.md)) | 16 bundled presentation template systems with certified slide layouts, static thumbnails, and vector assets | JSON Layout Schemas, SVG/PNG Assets |
-| `scripts/` ([Unlock Source](./SOURCE_ACCESS.md)) | Template conversion utilities, export runtime synchronization (`sync-presentation-export.cjs`), and read-only diagnostics (`project-health.mjs`) | Node.js ESM/CJS, Python |
+| `servers/nextjs/` | Web application, interactive slide canvas editor, Template V2 visual studio, provider onboarding wizard, and export triggers | Next.js `16.4.6`, React, TypeScript, Tailwind CSS, Redux Toolkit |
+| `servers/fastapi/` | REST & SSE streaming API, multi-LLM orchestration, Template V2 vision certification, Mem0 memory, MCP server, and persistence | Python `3.11`, FastAPI, SQLModel, Alembic, LiteLLM, Pydantic |
+| `electron/` | Cross-platform desktop packaging, lifecycle management, local process supervision, and IPC security boundaries | Electron, TypeScript, Electron Builder |
+| `templates/` | 16 bundled presentation template systems with certified slide layouts, static thumbnails, and vector assets | JSON Layout Schemas, SVG/PNG Assets |
+| `scripts/` | Template conversion utilities, export runtime synchronization (`sync-presentation-export.cjs`), and read-only diagnostics (`project-health.mjs`) | Node.js ESM/CJS, Python |
 | [`docs/`](./docs/) | Architectural specifications, Template V2 deep dive, generation modes guide, k6 load-testing telemetry, and validation reports | Markdown, Mermaid Diagrams |
 
 ### Deep-Dive Documentation
 
-- **[`SOURCE_ACCESS.md`](./SOURCE_ACCESS.md)** — 3-step guide to unlock the private `annoris/lumenpitch-pro-source` repository via Solana (`3HvUMCUSSHEdtA35UuD4J7mbgpTxJ7LgT2X7GfdzvBdm`).
-- **[`PAYMENT.md`](./PAYMENT.md)** — Commercial white-label licensing tiers, QR code, and Solana verification instructions.
 - **[`SPONSORS.md`](./SPONSORS.md)** — Hall of Patrons and institutional sponsors.
 - **[`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md)** — Core component boundaries, runtime contract, and verification commands.
 - **[`docs/PROJECT_STRUCTURE.md`](./docs/PROJECT_STRUCTURE.md)** — Repository folder map and contributor workflow rules.
@@ -454,66 +450,22 @@ flowchart TB
 
 ---
 
-## Installation & Verified Contributor Access Gate (Solana Pay)
+## Live Interactive Studio & Deployment Architecture
 
 > [!IMPORTANT]
-> **Solana-Gated Sponsorware Architecture (`annoris/lumenpitch-pro-source`):**
+> **Proprietary Showcase Repository (`All Rights Reserved`):**
 > - **Interactive Live Web & Mobile App Studio:** Explore the studio UI right now at **[https://annoris.github.io/lumenpitch/](https://annoris.github.io/lumenpitch/)**
-> - **Full Editable Full-Stack Source Vault (`annoris/lumenpitch-pro-source`):** The complete, unminified full-stack platform (`servers/nextjs/`, `servers/fastapi/`, `electron/`, `templates/`, `scripts/`, `Dockerfile`, and `docker-compose.yml`) is hosted inside the private repository **`annoris/lumenpitch-pro-source`**.
-> - **How to Unlock Full Clone & Download Access:**
->   1. Send your contribution in **SOL** or **USDC-SPL** (**$75 – $149 USD** Individual Unlock / **$450 USD** Studio License / **$1,500 USD** Enterprise License) on Solana Mainnet to **`3HvUMCUSSHEdtA35UuD4J7mbgpTxJ7LgT2X7GfdzvBdm`**.
->   2. Submit your transaction signature (`txSig`) in a **[🔓 Solana Source Code Unlock Request](https://github.com/annoris/lumenpitch/issues/new?template=source_unlock_request.md)** (or [Release Access Claim Issue](https://github.com/annoris/lumenpitch/issues/new?template=claim-release-access.yml)).
->   3. Your GitHub account will receive a collaborator invitation to **`https://github.com/annoris/lumenpitch-pro-source`**. See [`SOURCE_ACCESS.md`](./SOURCE_ACCESS.md) and [`PAYMENT.md`](./PAYMENT.md).
+> - **Proprietary Source Code:** This public repository hosts the architectural showcase, visual tour, template gallery, and technical documentation. The full-stack source code (`servers/nextjs/`, `servers/fastapi/`, `electron/`, `templates/`, `scripts/`, `Dockerfile`, and `docker-compose.yml`) is proprietary intellectual property (**All Rights Reserved**).
+> - **Commercial Licensing:** For enterprise deployments, white-label licensing, or custom integrations, please contact the author directly. See [`LICENSE`](./LICENSE).
 
-### Prerequisites (Once Your GitHub Account Is Verified & Invited)
+### Runtime Requirements (Licensed Deployments)
 
 - **Node.js** `22.12+` & **npm**
 - **Python** `3.11` & **[uv](https://github.com/astral-sh/uv)** (fast Python package & lockfile manager)
 
-### Option 1: Local Multi-Process Development (For Verified Contributors)
+### Deployment Overview
 
-1. **Clone the private source vault (`annoris/lumenpitch-pro-source`) and initialize your environment file:**
-   ```bash
-   git clone https://github.com/annoris/lumenpitch-pro-source.git
-   cd lumenpitch-pro-source
-   cp .env.example .env
-   ```
-
-2. **Install root dependencies and run the read-only project diagnostics check:**
-   ```bash
-   npm ci
-   npm run doctor
-   ```
-
-3. **Start the FastAPI backend engine (`port 8000`):**
-   ```bash
-   cd servers/fastapi
-   uv sync --locked --dev
-   uv run python server.py --port 8000
-   ```
-
-4. **In a second terminal, start the Next.js studio interface (`port 3000`):**
-   ```bash
-   cd servers/nextjs
-   npm ci
-   npm run dev
-   ```
-
-5. **Open [http://localhost:3000](http://localhost:3000)** in your browser, create your local administrator account, and configure your preferred AI provider (or browse the workspace and 16 templates immediately).
-
----
-
-### Option 2: Docker Compose Deployment
-
-LumenPitch includes production and development profiles in `docker-compose.yml` ([Private Source Vault](./SOURCE_ACCESS.md), with optional NVIDIA GPU passthrough via `production-gpu` and `development-gpu`).
-
-```bash
-# 1. Configure your environment variables in .env
-cp .env.example .env
-
-# 2. Launch the production service on http://localhost:5001
-docker compose up --build production
-```
+Licensed distributions support both **local multi-process deployment** (FastAPI backend on port `8000` + Next.js studio interface on port `3000`) and **Docker Compose deployment** (production and development profiles in `docker-compose.yml`, with optional NVIDIA GPU passthrough via `production-gpu` and `development-gpu`).
 
 > [!IMPORTANT]
 > **Export Engine Contract (`@lumenpitch/export-core`):**
@@ -579,11 +531,11 @@ npm run test:security
 
 ## Support & Crypto Sponsorship (Solana)
 
-### Sponsor Open-Source Development or Unlock Pre-Built Release Access via Solana
+### Sponsor Research & Showcase Development via Solana
 
 Building and maintaining an enterprise-grade, multi-LLM AI presentation studio requires continuous engineering across vision pipelines, layout compilers, and local AI runtimes.
 
-Whether you want to **sponsor LumenPitch's open-source development** with a donation of any amount in **SOL** / **USDC-SPL**, or unlock **pre-built release installers, distribution archives, and private release repository access** with a **$149 USD one-time contribution**, you can contribute directly on the **Solana** network:
+If you would like to **voluntarily sponsor LumenPitch's ongoing development** with a donation of any amount in **SOL** / **USDC-SPL**, you can contribute directly on the **Solana** network:
 
 <table>
   <tr>
@@ -595,26 +547,11 @@ Whether you want to **sponsor LumenPitch's open-source development** with a dona
     <td valign="top">
       <h4>Official Solana (SOL / USDC-SPL) Wallet Address</h4>
       <pre><code>3HvUMCUSSHEdtA35UuD4J7mbgpTxJ7LgT2X7GfdzvBdm</code></pre>
-      <p><b>1-Step QR Payment:</b> Simply open your Solana wallet app, tap <b>Send / Scan QR</b>, and scan the official <b>Receive SOL</b> QR code on the left (or copy the wallet address above).</p>
-      <p><b>One-Time Perpetual Release &amp; Source Vault License:</b> <code>$149 USD</code> (in SOL at live rate or <code>149 USDC-SPL</code>) — or send any amount to support open-source development!</p>
+      <p><b>1-Step QR Sponsorship:</b> Open your Solana wallet app, tap <b>Send / Scan QR</b>, and scan the official <b>Receive SOL</b> QR code on the left (or copy the wallet address above).</p>
+      <p><b>Note:</b> Voluntary sponsorships support ongoing R&amp;D and public showcase maintenance. They do not grant proprietary source code access or commercial usage rights. Commercial licensing is available exclusively via direct agreement with the author (see <a href="./LICENSE"><code>LICENSE</code></a>).</p>
     </td>
   </tr>
 </table>
-
-### Automated On-Chain Verification & Release Access Claim ($149 USD Tier)
-
-1. **Send `$149 USD` in SOL (or `149 USDC-SPL`)** on Solana Mainnet to:
-   ```text
-   3HvUMCUSSHEdtA35UuD4J7mbgpTxJ7LgT2X7GfdzvBdm
-   ```
-2. **Include your GitHub username in the Solana transaction Memo** (for automated GitHub repository invitations):
-   ```text
-   gh:<your-github-username>
-   ```
-   *(Example: if your GitHub username is `octocat`, set the transaction memo to `gh:octocat`.)*
-3. **Verify On-Chain & Unlock Immediately:**
-   - **On GitHub (Automated Private Vault Invite):** Open a **[🔓 Solana Source Code Unlock Request](https://github.com/annoris/lumenpitch/issues/new?template=source_unlock_request.md)** (or [Release Access Claim Issue](https://github.com/annoris/lumenpitch/issues/new?template=claim-release-access.yml)) with your **Solana Transaction Signature (`txSig`)** and your GitHub username.
-   - **In the LumenPitch App:** Paste your confirmed Solana Transaction Signature directly into the in-app **Solana License & Release Gate** screen to verify your transaction on-chain and unlock the workspace immediately.
 
 ---
 
@@ -625,7 +562,6 @@ Whether you want to **sponsor LumenPitch's open-source development** with a dona
 - [x] **16 Studio Design Systems** — 400+ built-in slide layouts across 16 professional themes.
 - [x] **Dual Generation Workflows** — Standard outline-driven mode and Smart real-time SSE streaming mode.
 - [x] **Model Context Protocol (MCP) Server** — Expose LumenPitch deck generation tools directly to external AI agents.
-- [x] **Solana Mainnet Verification Gate** — Automated on-chain payment & memo verification via GitHub Actions and in-app RPC checks.
 - [ ] **Collaborative Multi-User Workspaces** — Real-time cursor presence and role-based slide commenting.
 - [ ] **Interactive Chart & Live Data Connectors** — Direct SQL / CSV / REST bindings for auto-updating chart slides.
 - [ ] **Plugin SDK for Custom Slide Widgets** — Extensible React component registry for domain-specific visual blocks.
@@ -634,33 +570,27 @@ Whether you want to **sponsor LumenPitch's open-source development** with a dona
 
 ## Contributing
 
-Contributions, bug reports, security audits, and new template designs are warmly welcomed! Before making cross-component changes, please review:
+Bug reports, security audits, and feedback on the live studio showcase are warmly welcomed! Please review:
 
 1. **[`AGENTS.md`](./AGENTS.md)** — Collaboration guidelines and component boundaries.
 2. **[`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md)** — System architecture and runtime verification rules.
-3. **[`docs/PROJECT_STRUCTURE.md`](./docs/PROJECT_STRUCTURE.md)** — Folder map and instructions for adding new features cleanly.
-
-```bash
-# Run diagnostics and tests before opening a Pull Request:
-npm run doctor
-npm test
-```
+3. **[`docs/PROJECT_STRUCTURE.md`](./docs/PROJECT_STRUCTURE.md)** — Folder map and documentation structure.
 
 ---
 
 ## Star This Repository
 
-If **LumenPitch** helps you build better presentations, saves your team hours of slide formatting, or inspires your local AI workflows:
+If **LumenPitch** inspires your local AI presentation workflows:
 
-- **Give this repository a Star on GitHub** (top-right corner) — it helps more developers and creators discover open-source AI tooling!
+- **Give this repository a Star on GitHub** (top-right corner) — it helps more developers and creators discover LumenPitch!
 - **Share LumenPitch** on X (Twitter), Hacker News, Reddit (`r/LocalLLaMA`, `r/selfhosted`), and LinkedIn.
-- **Sponsor via Solana** (`3HvUMCUSSHEdtA35UuD4J7mbgpTxJ7LgT2X7GfdzvBdm`) to accelerate upcoming releases.
+- **Sponsor via Solana** (`3HvUMCUSSHEdtA35UuD4J7mbgpTxJ7LgT2X7GfdzvBdm`) to support upcoming releases.
 
 ---
 
 ## License & Attribution
 
-Distributed under the **Commercial & Sponsorware Source-Gated License (On-Chain Solana Treasury Edition)**. See [`LICENSE`](./LICENSE), [`SOURCE_ACCESS.md`](./SOURCE_ACCESS.md), [`PAYMENT.md`](./PAYMENT.md), [`SPONSORS.md`](./SPONSORS.md), and [`NOTICE`](./NOTICE) for full legal attribution, commercial licensing tiers, and third-party notices.
+**Proprietary Software — All Rights Reserved.** Public showcase viewing rights and proprietary restrictions are governed by [`LICENSE`](./LICENSE). See [`SPONSORS.md`](./SPONSORS.md) and [`NOTICE`](./NOTICE) for sponsorship acknowledgments and third-party notices.
 
 <div align="center">
   <br />

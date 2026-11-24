@@ -5,7 +5,7 @@ Images in this directory are ready to display on GitHub. The root README uses re
 | File | Content |
 | --- | --- |
 | `lumenpitch-logo.svg` | Original LumenPitch vector mark |
-| `solana-pay-qr.svg` | Solana Pay QR code for `$149 USD` one-time release access (`3HvUMCUSSHEdtA35UuD4J7mbgpTxJ7LgT2X7GfdzvBdm`) |
+| `solana-pay-qr.svg` | Solana Pay QR code for voluntary sponsorship (`3HvUMCUSSHEdtA35UuD4J7mbgpTxJ7LgT2X7GfdzvBdm`) |
 | `dashboard.png` | Real workspace and presentation library |
 | `templates.png` | Real template library |
 | `setup.png` | Real provider setup screen |

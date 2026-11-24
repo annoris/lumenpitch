@@ -2,7 +2,7 @@
 
 > **Target Repository:** `https://github.com/annoris/lumenpitch`  
 > **Live Interactive Studio:** `https://annoris.github.io/lumenpitch/`  
-> **Private Full-Stack Source Vault:** `https://github.com/annoris/lumenpitch-pro-source`  
+> **License:** Proprietary / All Rights Reserved  
 > **Official Solana Treasury:** `3HvUMCUSSHEdtA35UuD4J7mbgpTxJ7LgT2X7GfdzvBdm`
 
 ---
@@ -54,12 +54,12 @@ Upload any existing corporate PowerPoint deck. LumenPitch runs 4 parallel vision
 • Built-in Model Context Protocol (MCP) server so external AI agents can generate decks autonomously
 ```
 
-### Tweet 4 (Try Live & Unlock Full Source)
+### Tweet 4 (Try the Live Interactive Studio)
 ```text
 3/ Explore the Live Interactive Studio & 16 Design Systems (400+ Layouts):
 
 🚀 Live Studio: https://annoris.github.io/lumenpitch/
-📦 GitHub Showcase & Solana Vault Unlock: https://github.com/annoris/lumenpitch
+📦 GitHub Showcase & Architecture: https://github.com/annoris/lumenpitch
 ```
 
 ---

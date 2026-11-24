@@ -18,7 +18,7 @@ The **LumenPitch — AI-Powered Presentation Studio & Multi-LLM Deck Engine** te
   ```text
   3HvUMCUSSHEdtA35UuD4J7mbgpTxJ7LgT2X7GfdzvBdm
   ```
-  Always verify this exact address in [`PAYMENT.md`](../PAYMENT.md), [`SOURCE_ACCESS.md`](../SOURCE_ACCESS.md), [`SPONSORS.md`](../SPONSORS.md), and [`.github/FUNDING.yml`](./FUNDING.yml) before signing any transaction.
+  Always verify this exact address in [`SPONSORS.md`](../SPONSORS.md) and [`.github/FUNDING.yml`](./FUNDING.yml) before signing any transaction.
 
 ---
 
